@@ -39,8 +39,12 @@ export function useCart() {
     )
   }
 
+  function clearCart() {
+    setItems([])
+  }
+
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0)
 
-  return { items, addToCart, removeFromCart, updateQuantity, total, itemCount }
+  return { items, addToCart, removeFromCart, updateQuantity, clearCart, total, itemCount }
 }

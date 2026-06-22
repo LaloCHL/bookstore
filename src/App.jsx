@@ -1,12 +1,14 @@
 import { useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import { useBooks } from './hooks/useBooks'
 import { useCart } from './hooks/useCart'
+import { useCheckout } from './hooks/useCheckout'
 import BookCard from './components/BookCard'
 import CartDrawer from './components/CartDrawer'
+import SuccessPage from './pages/SuccessPage'
 
-function App() {
+function StorePage({ cart, onCheckout }) {
   const { books, loading, error } = useBooks()
-  const cart = useCart()
   const [cartOpen, setCartOpen] = useState(false)
 
   if (loading) return <p className="text-center mt-20 text-gray-400">Loading books...</p>
@@ -41,8 +43,25 @@ function App() {
         isOpen={cartOpen}
         onClose={() => setCartOpen(false)}
         cart={cart}
+        onCheckout={onCheckout}
       />
     </div>
+  )
+}
+
+function App() {
+  const cart = useCart()
+  const { checkout } = useCheckout()
+
+  async function handleCheckout() {
+    await checkout(cart.items, cart.total)
+  }
+
+  return (
+    <Routes>
+      <Route path="/" element={<StorePage cart={cart} onCheckout={handleCheckout} />} />
+      <Route path="/success" element={<SuccessPage onClearCart={cart.clearCart} />} />
+    </Routes>
   )
 }
 

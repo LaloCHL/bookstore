@@ -1,4 +1,4 @@
-function CartDrawer({ isOpen, onClose, cart }) {
+function CartDrawer({ isOpen, onClose, cart, onCheckout }) {
   const { items, removeFromCart, updateQuantity, total } = cart
 
   return (
@@ -70,7 +70,10 @@ function CartDrawer({ isOpen, onClose, cart }) {
               <span className="text-sm text-gray-500">Total</span>
               <span className="font-bold text-gray-900">${total.toFixed(2)}</span>
             </div>
-            <button className="w-full bg-blue-500 hover:bg-blue-400 text-white py-3 rounded-xl font-medium transition">
+            <button
+              onClick={onCheckout}
+              className="w-full bg-blue-500 hover:bg-blue-400 text-white py-3 rounded-xl font-medium transition"
+            >
               Checkout
             </button>
           </div>
